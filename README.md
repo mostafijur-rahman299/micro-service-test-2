@@ -9,7 +9,6 @@
 * Start container: ```docker start [containerid]```
 * List running container : ```docker ps```
 * Run project: ```docker-compose up```
-* Makemigrations: ```docker-compose run --rm web python manage.py makemigrations```
-* Migrate: ```docker-compose run --rm web python manage.py migrate```
+* For django command: ```docker-compose run --rm web python manage.py makemigrations, migrate, createsuperuser, shell```
 
 .....Now you can run project your own localhost:8001 and localhost:8002.....:)

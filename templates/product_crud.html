@@ -1,0 +1,288 @@
+
+{% load static %}
+
+<!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+
+<div class="container d-flex justify-content-center mt-5">
+	
+	<div class="row">
+		<div class="col-md-5">
+			<!-- custom product fields crud table -->
+			<div class="custom-field-table">
+				<div class="card" style="width: 25rem;">
+				  <div class="card-body">
+				  	<button type="button" class="btn btn-outline-primary mb-3" data-toggle="modal" data-target="#AddCustomProductField" style="float:right;">
+					  	Add Field
+					</button>
+
+				  	<table class="table table-bordered">
+					  <thead>
+					    <tr>
+					      <th scope="col">Name</th>
+					      <th scope="col">Action</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    
+					  </tbody>
+					</table>
+				    
+				  </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-7">
+			<!-- product crud table -->
+			<div class="product-table">
+				<div class="card" style="width: 40rem;">
+				  <div class="card-body">
+				  	<button type="button" class="btn btn-outline-primary mb-3 product-add-btn" data-toggle="modal" data-target="#staticBackdrop" style="float:right;">
+					  	Add Product
+					</button>
+
+				  	<table class="table table-bordered">
+					  <thead>
+					    <tr>
+					      <th scope="col">Product Title</th>
+					      <th scope="col">Price</th>
+					      <th scope="col">Description</th>
+					      <th scope="col">Action</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    
+					  </tbody>
+					</table>
+				    
+				  </div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	
+<!-- //////////////////////////////////////////////////////////////
+	//////////////////////////  product  //////////////////////////
+	///////////////////////////////////////////////////////////// -->
+
+	<!-- Product Add Modal -->
+	<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header border-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        	
+			<div class="product-add-section">
+	            <form method="post" class="product-add-form container">{% csrf_token %}
+	              <h5 class="text-muted text-center">Add Product</h5>
+
+	              <div class="form-group row">
+	                <label for="title" class="col-form-label">Title*</label>
+	                <input type="text" name="title" class="form-control" id="title" required="">
+	              </div>
+
+	              <div class="form-group row">
+	                <label for="price" class="col-form-label">Price*</label>
+	                <input type="number" name="price" class="form-control" id="price" required="">
+	              </div>
+
+	              <div class="form-group row">
+	                <label for="description" class="col-form-label">Description</label>
+	                <textarea name="description" class="form-control" id="description"></textarea>
+	              </div>
+
+	              <div class="form-group row custom-fields"></div>
+
+	              <div class="modal-footer border-0">
+	                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	                  <button type="submit" class="btn btn-primary" >Add Product</button>
+	                </div>
+	            </form>
+	        </div>
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- product update modal -->
+	<div class="modal fade" id="productUpdateModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="productUpdateModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header border-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        	
+			<div class="product-update-section">
+	            <form method="post" class="product-update-form container">{% csrf_token %}
+	              <h5 class="text-muted text-center">Update Product</h5>
+
+	              <div class="form-group row">
+	                <label for="title" class="col-form-label">Title*</label>
+	                <input type="text" name="title" class="form-control" id="title" required="">
+	              </div>
+
+	              <div class="form-group row">
+	                <label for="price" class="col-form-label">Price*</label>
+	                <input type="number" name="price" class="form-control" id="price" required="">
+	              </div>
+
+	              <div class="form-group row">
+	                <label for="description" class="col-form-label">Description</label>
+	                <textarea name="description" class="form-control" id="description"></textarea>
+	              </div>
+
+	              <div class="form-group row custom-fields"></div>
+
+	              <input type="hidden" name="product_id" id="product_id" value="">
+	              <div class="modal-footer border-0">
+	                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	                  <button type="submit" class="btn btn-primary" >Update Product</button>
+	               </div>
+	            </form>
+	        </div>
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- product delete modal -->
+	<div class="modal fade" id="productDeleteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="productDeleteModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header border-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <h6 class="text-center text-muted">Are you confirm to delete this product?</h6>
+	        <form class="d-flex justify-content-center mt-4 product-delete-form">
+	        	<input type="hidden" name="product_id" id="product_id" value="">
+	        	<button type="button" class="btn btn-outline-warning mr-2" data-dismiss="modal">Cancel</button>
+	        	<button type="submit" class="btn btn-outline-danger" >Confirm</button>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+
+<!-- //////////////////////////////////////////////////////////////
+	///////////////// custom product field ///////////////////////
+	///////////////////////////////////////////////////////////// -->
+
+	<!-- Add custom product add field modal-->
+	<div class="modal fade" id="AddCustomProductField" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="AddCustomProductFieldLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header border-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        	
+			<div class="custom-field-section">
+	            <form method="post" class="custom-field-add-form container">
+	              {% csrf_token %}
+	              <h5 class="text-muted text-center">Add Custom Product Field</h5>
+
+	              <div class="form-group row">
+	                <label for="name" class="col-form-label">Name*</label>
+	                <input type="text" name="name" class="form-control" id="name" required="">
+	              </div>
+
+	              <div class="modal-footer border-0">
+	                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	                  <button type="submit" class="btn btn-primary" >Add</button>
+	              </div>
+	            </form>
+	        </div>
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+	<!-- Add custom product field update modal-->
+	<div class="modal fade" id="UpdateCustomProductField" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="UpdateCustomProductFieldLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header border-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        	
+			<div class="custom-field-section">
+	            <form method="post" class="custom-field-update-form container">
+	              {% csrf_token %}
+	              <h5 class="text-muted text-center">Add Custom Product Field</h5>
+
+	              <div class="form-group row">
+	                <label for="name" class="col-form-label">Name*</label>
+	                <input type="text" name="name" class="form-control" id="name" required="">
+	              </div>
+	              <input type="hidden" name="id" id="_id" value="">
+	              <div class="modal-footer border-0">
+	                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	                  <button type="submit" class="btn btn-primary" >Update</button>
+	              </div>
+	            </form>
+	        </div>
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+	<!-- custom product field delete modal -->
+	<div class="modal fade" id="customProductFieldDeleteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="customProductFieldDeleteModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header border-0">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <h6 class="text-center text-muted">Are you confirm to delete this product field?</h6>
+	        <form class="d-flex justify-content-center mt-4 custom-field-delete-form">
+	        	<input type="hidden" name="id" id="_id" value="">
+	        	<button type="button" class="btn btn-outline-warning mr-2" data-dismiss="modal">Cancel</button>
+	        	<button type="submit" class="btn btn-outline-danger" >Confirm</button>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+
+</div>
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+<script src="{% static 'js/product_crud.js' %}?v=1.00"></script>
